@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import ru.hh.school.servers.resource.FrontResource;
 import ru.hh.school.servers.resource.TodoResource;
+import ru.hh.school.servers.resource.TodosResource;
 import ru.hh.school.servers.service.TodoService;
 
 @Configuration
@@ -20,6 +21,11 @@ public class JerseyConfig {
     @Bean
     public TodoResource todoResource() {
         return new TodoResource(service);
+    }
+
+    @Bean
+    public TodosResource todosResource() {
+        return new TodosResource(service);
     }
 
 }

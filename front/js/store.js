@@ -113,18 +113,15 @@
 		var xhr = new XMLHttpRequest();
 
 		if (id) {
-			xhr.open('PUT', this._host + '/todo/' + id, true);
+			xhr.open('PATCH', this._host + '/todo/' + id, true);
 		} else {
-			xhr.open('POST', this._host + '/todo', true);
-		}
-		xhr.send();
+            xhr.open('POST', this._host + '/todo', true);
+        }
+        xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.send(JSON.stringify(updateData));
 
 		xhr.onload = function () {
-			if (xhr.status === 200 && callback) {
-				callback.call(this, []);
-			} else {
-				callback.call(this, []);
-			}
+			callback.call(this, []);
 		};
 /*
 		// If an ID was actually given, find the item and update each property
@@ -157,6 +154,15 @@
 	 * @param {function} callback The callback to fire after saving
 	 */
 	Store.prototype.remove = function (id, callback) {
+		var xhr = new XMLHttpRequest();
+
+		xhr.open('DELETE', this._host + '/todo/' + id, true);
+		xhr.send();
+
+		xhr.onload = function () {
+			callback.call(this, []);
+		};
+		/*
 		var todos = JSON.parse(localStorage.getItem(this._dbName));
 
 		for (var i = 0; i < todos.length; i++) {
@@ -168,6 +174,7 @@
 
 		localStorage.setItem(this._dbName, JSON.stringify(todos));
 		callback.call(this, todos);
+		*/
 	};
 
 	/**
@@ -176,9 +183,18 @@
 	 * @param {function} callback The callback to fire after dropping the data
 	 */
 	Store.prototype.drop = function (callback) {
+		var xhr = new XMLHttpRequest();
+
+		xhr.open('DELETE', this._host + '/todos', true);
+		xhr.send();
+
+		xhr.onload = function () {
+			callback.call(this, []);
+		};
+		/*
 		var todos = [];
 		localStorage.setItem(this._dbName, JSON.stringify(todos));
-		callback.call(this, todos);
+		callback.call(this, todos);*/
 	};
 
 	// Export to window
