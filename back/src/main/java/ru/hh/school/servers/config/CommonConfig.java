@@ -1,4 +1,4 @@
-package ru.hh.school.servers;
+package ru.hh.school.servers.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,13 +11,14 @@ import ru.hh.school.servers.service.TodoService;
 @Import(NabProdConfig.class)
 public class CommonConfig {
 
-    @Bean
-    public TodoDao todoDao() {
-        return new TodoDao();
+    private TodoDao todoDao;
+
+    public CommonConfig(TodoDao todoDao) {
+        this.todoDao = todoDao;
     }
 
     @Bean
     public TodoService todoService() {
-        return new TodoService(todoDao());
+        return new TodoService(todoDao);
     }
 }
